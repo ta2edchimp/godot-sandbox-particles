@@ -1,0 +1,92 @@
+[gd_scene load_steps=9 format=3 uid="uid://djeqjgggwvd1w"]
+
+[sub_resource type="Curve" id="Curve_eho8p"]
+_data = [Vector2(0, 0.237907), 0.0, 11.8574, 0, 0, Vector2(0.171799, 1), 0.0, 0.0, 0, 0, Vector2(0.807131, 0.706887), -1.5044, -1.5044, 0, 0, Vector2(1, 0), -0.417125, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_yh8od"]
+curve = SubResource("Curve_eho8p")
+
+[sub_resource type="Curve" id="Curve_c6jty"]
+_data = [Vector2(0.709886, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cbli5"]
+curve = SubResource("Curve_c6jty")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u10a7"]
+particle_flag_disable_z = true
+angle_max = 180.0
+direction = Vector3(2.08165e-12, -1, 2.08165e-12)
+spread = 75.0
+initial_velocity_min = 50.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, 98, 0)
+linear_accel_max = 2.08167e-15
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_cbli5")
+alpha_curve = SubResource("CurveTexture_yh8od")
+
+[sub_resource type="Animation" id="Animation_f73pa"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_6wfd7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rg3rs"]
+_data = {
+"RESET": SubResource("Animation_6wfd7"),
+"default": SubResource("Animation_f73pa")
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D"]
+emitting = false
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_u10a7")
+lifetime = 0.65
+one_shot = true
+explosiveness = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rg3rs")
+}
+autoplay = "default"

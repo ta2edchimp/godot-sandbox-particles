@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://6ici1025vn7l"]
+
+[ext_resource type="Script" path="res://Main.cs" id="1_nh77h"]
+[ext_resource type="PackedScene" uid="uid://b7y3h4prm23sx" path="res://ParticleEffects/LaserBeam/LaserBeam.tscn" id="2_v0wc6"]
+[ext_resource type="PackedScene" uid="uid://2jpk0lumffj0" path="res://ShaderEffects/ElectricBolt/ElectricBolt.tscn" id="3_douku"]
+[ext_resource type="Texture2D" uid="uid://fauhkabfvyi0" path="res://CenterPointer.png" id="4_r4rc3"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_nh77h")
+UseEffectOnLmb = ExtResource("2_v0wc6")
+UseEffectOnRmb = ExtResource("3_douku")
+
+[node name="Center" type="Sprite2D" parent="."]
+z_index = 1000
+position = Vector2(160, 90)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_r4rc3")

@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=3 uid="uid://dnn7jx5vl5j7d"]
+
+[ext_resource type="Texture2D" uid="uid://jnsqsh2alfqt" path="res://ParticleEffects/Smoke/Smoke.png" id="1_y8fuf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ywxvi"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_51umu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.246353, 1), 0.0, 0.0, 0, 0, Vector2(0.975689, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fovra"]
+curve = SubResource("Curve_51umu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yfryb"]
+particle_flag_disable_z = true
+angle_max = 180.0
+direction = Vector3(2.08165e-12, -1, 2.08165e-12)
+spread = 25.0
+initial_velocity_max = 100.0
+angular_velocity_max = 300.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+scale_curve = SubResource("CurveTexture_fovra")
+color = Color(0.7, 0.7, 0.7, 0.501961)
+anim_offset_max = 1.0
+
+[sub_resource type="Animation" id="Animation_rcb55"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_pfw7m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bknnc"]
+_data = {
+"RESET": SubResource("Animation_pfw7m"),
+"default": SubResource("Animation_rcb55")
+}
+
+[node name="Smoke" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_ywxvi")
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_yfryb")
+texture = ExtResource("1_y8fuf")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.9
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bknnc")
+}
+autoplay = "default"
