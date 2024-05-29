@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://24e3rsvfkcjt"]
+
+[ext_resource type="Texture2D" uid="uid://3y4yfu6olxlg" path="res://ParticleEffects/RetroExplosion/Explosion_Sheet.png" id="1_q7okd"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_smv5j"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_sjnmi"]
+offsets = PackedFloat32Array(0, 0.221053, 0.252632, 0.452632, 0.489474, 0.784211, 0.821053, 1)
+colors = PackedColorArray(1, 0.835294, 0, 1, 1, 0.835294, 0, 1, 1, 0.717647, 0.188235, 1, 1, 0.717647, 0.188235, 1, 0.415686, 0.0980392, 0, 1, 0.415686, 0.0980392, 0, 1, 0.152941, 0.168627, 0.188235, 1, 0.152941, 0.168627, 0.188235, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bku2i"]
+gradient = SubResource("Gradient_sjnmi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1il2o"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(50, 50, 1)
+emission_shape = 1
+emission_sphere_radius = 5.0
+angular_velocity_min = -81.95
+angular_velocity_max = 105.37
+gravity = Vector3(0, -100, 0)
+scale_min = 0.5
+color_ramp = SubResource("GradientTexture1D_bku2i")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="Animation" id="Animation_4p7yy"]
+resource_name = "Default"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0rubs"]
+_data = {
+"Default": SubResource("Animation_4p7yy")
+}
+
+[node name="RetroExplosionBig" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_smv5j")
+position = Vector2(1, -1)
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_1il2o")
+texture = ExtResource("1_q7okd")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.5
+randomness = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0rubs")
+}
+autoplay = "Default"
